@@ -13,6 +13,14 @@ terraform {
   # Use Azure storage container to hold terrafrom state. Using local, as I don't want this to be a dependency. 
   backend "local" {
   }
+
+  # backend "azurerm" {
+  #   tenant_id            = ""
+  #   resource_group_name  = ""
+  #   storage_account_name = ""
+  #   container_name       = ""
+  #   key                  = ""
+  # }
 }
 
 provider "azurerm" {
