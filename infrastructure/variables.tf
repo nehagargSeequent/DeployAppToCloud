@@ -25,6 +25,14 @@ variable "kubernetes" {
   })
 }
 
+variable "network" {
+  description = "Network configuration"
+  type = object({
+    node_address_space : string
+    vnet_address_space : string
+  })
+}
+
 variable "tags" {
   type = map(string)
 }

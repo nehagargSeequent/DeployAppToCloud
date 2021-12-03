@@ -12,6 +12,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     name                 = "default"
     node_count           = var.kubernetes.node_count
     vm_size              = var.kubernetes.vm_size
+    vnet_subnet_id       = azurerm_subnet.k8s_subnet.id
     # High availability can be ensured by keeping cluster nodes in different availability zones.
     availability_zones   = var.kubernetes.vm_zones
     enable_auto_scaling  = var.kubernetes.enable_auto_scaling

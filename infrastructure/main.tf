@@ -33,8 +33,10 @@ provider "kubernetes" {
 locals {
   common_resource_name = var.resource_prefix
   resource_group_name  = local.common_resource_name
+  vnet_name            = local.common_resource_name
 }
 
+# This is the resource group which would hold AKS service
 resource "azurerm_resource_group" "resource_group" {
   name     = local.resource_group_name
   location = var.azure.location
