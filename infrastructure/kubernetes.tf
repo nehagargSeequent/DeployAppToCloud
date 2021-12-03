@@ -5,17 +5,21 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   node_resource_group = "${azurerm_resource_group.resource_group.name}-nodes"
   dns_prefix          = local.common_resource_name
 
+  # Provide IPs to be able to restrict access to AKS service. Don't open it.
+  # api_server_authorized_ip_ranges = var.kubernetes.authorized_ip_ranges
+
   default_node_pool {
     name                 = "default"
-    node_count           = 2
-    vm_size              = "Standard_D2s_v3"
-    enable_auto_scaling  = "true"
-    min_count            = 1
-    max_count            = 3
-    # below could be uncommented if need cluster nodes in different zones to make the application resilient.
-    # availability_zones   = [1, 2, 3]  
+    node_count           = var.kubernetes.node_count
+    vm_size              = var.kubernetes.vm_size
+    # High availability can be ensured by keeping cluster nodes in different availability zones.
+    availability_zones   = var.kubernetes.vm_zones
+    enable_auto_scaling  = var.kubernetes.enable_auto_scaling
+    min_count            = var.kubernetes.min_count
+    max_count            = var.kubernetes.max_count
   }
 
+  # It would create a cluster with managed identities which could be used to 
   identity {
     type = "SystemAssigned"
   }
