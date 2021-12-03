@@ -5,10 +5,6 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   node_resource_group = "${azurerm_resource_group.resource_group.name}-nodes"
   dns_prefix          = local.common_resource_name
 
-  auto_scaler_profile {
-    skip_nodes_with_system_pods = false
-  }
-
   default_node_pool {
     name                 = "default"
     node_count           = 2
