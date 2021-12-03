@@ -7,7 +7,7 @@ variable "azure" {
   })
 }
 
-variable "resource_prefix" {
+variable "aks_resource_prefix" {
   description = "Common resource prefix used for naming Azure resources"
   type        = string
 }
@@ -38,6 +38,18 @@ variable "network" {
     service_address_space : string
     cluster_dns_service_ip : string
     docker_bridge_address_space : string
+  })
+}
+
+variable "database" {
+  description = "Database configuration"
+  type = object({
+    server_resource_group_name : string
+    server_location : string
+    server_name : string
+    database_name : string
+    postgres_sku_name : string
+    administrator_login : string
   })
 }
 
