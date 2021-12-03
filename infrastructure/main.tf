@@ -12,7 +12,7 @@ terraform {
   }
   # Use Azure storage container to hold terrafrom state. Using local, as I don't want this to be a dependency. 
   backend "local" {
-    path = "${path.module}/terraform.tfstate"
+    path = "terraform.tfstate"
   }
 }
 
