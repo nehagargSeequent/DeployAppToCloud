@@ -5,8 +5,6 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   node_resource_group = "${azurerm_resource_group.resource_group.name}-nodes"
   dns_prefix          = local.common_resource_name
 
-  api_server_authorized_ip_ranges = var.kubernetes.authorized_ip_ranges
-
   auto_scaler_profile {
     skip_nodes_with_system_pods = false
   }
