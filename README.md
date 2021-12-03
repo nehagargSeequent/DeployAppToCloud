@@ -14,6 +14,7 @@ This repository would hold infrastructure as code to be deployed to Azure. This 
 ### Deploy via local
 *Pre-requisites*
 - Install terraform CLI (v1.0.11)
+- Install AZ CLI
 
 *Steps*
 - Add subscription_id and tenant_id to configs/infrastructure.tfvars.json

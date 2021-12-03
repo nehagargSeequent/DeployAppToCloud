@@ -19,6 +19,7 @@ resource "azurerm_subnet" "k8s_subnet" {
   service_endpoints    = ["Microsoft.KeyVault"]
 }
 
+# Gets the network security group created by AKS to be able to associate it with above subnet.
 data "azurerm_resources" "k8s_nsg" {
   resource_group_name = data.azurerm_resource_group.node_resource_group.name
   type                = "Microsoft.Network/networkSecurityGroups"
