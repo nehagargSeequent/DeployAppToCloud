@@ -57,6 +57,7 @@ resource "azurerm_key_vault_secret" "pgsql_server_admin_username" {
   name         = "pgsql-username"
   value        = "${var.postgres.administrator_login}@${azurerm_postgresql_server.pgsql_server.fqdn}"
   key_vault_id = azurerm_key_vault.key_vault.id
+  depends_on   = [azurerm_role_assignment.key_vault_admin]
 }
 
 # Adding pgsql server login password as a secret to Key Vault 
@@ -64,4 +65,5 @@ resource "azurerm_key_vault_secret" "pgsql_server_admin_password" {
   name         = "pgsql-password"
   value        = azurerm_postgresql_server.pgsql_server.administrator_login_password
   key_vault_id = azurerm_key_vault.key_vault.id
+  depends_on   = [azurerm_role_assignment.key_vault_admin]
 }
