@@ -39,7 +39,7 @@ provider "kubernetes" {
 }
 
 locals {
-  common_resource_name = var.resource_prefix
+  common_resource_name = var.aks_resource_prefix
   resource_group_name  = local.common_resource_name
   vnet_name            = local.common_resource_name
 }
