@@ -4,3 +4,9 @@ resource "azurerm_user_assigned_identity" "pod_identity" {
   resource_group_name = azurerm_resource_group.resource_group.name
   location            = azurerm_resource_group.resource_group.location
 }
+
+resource "azurerm_role_assignment" "key_vault_secrets" {
+  scope                = azurerm_key_vault.key_vault.id
+  role_definition_name = "Key Vault Secrets User"
+  principal_id         = azurerm_user_assigned_identity.pod_identity.principal_id
+}
