@@ -9,6 +9,10 @@ terraform {
       source  = "hashicorp/kubernetes"
       version = "~>1.13"
     }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "~>2.0"
+    }
   }
   # Use Azure storage container to hold terrafrom state. Using local, as I don't want this to be a dependency. 
   backend "local" {
@@ -30,12 +34,20 @@ provider "azurerm" {
 }
 
 provider "kubernetes" {
-  load_config_file = "false"
-  host             = azurerm_kubernetes_cluster.k8s.kube_config.0.host
-
+  load_config_file       = "false"
+  host                   = azurerm_kubernetes_cluster.k8s.kube_config.0.host
   client_certificate     = base64decode(azurerm_kubernetes_cluster.k8s.kube_config.0.client_certificate)
   client_key             = base64decode(azurerm_kubernetes_cluster.k8s.kube_config.0.client_key)
   cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.k8s.kube_config.0.cluster_ca_certificate)
+}
+
+provider "helm" {
+  kubernetes {
+    host                   = azurerm_kubernetes_cluster.k8s.kube_config.0.host
+    client_certificate     = base64decode(azurerm_kubernetes_cluster.k8s.kube_config.0.client_certificate)
+    client_key             = base64decode(azurerm_kubernetes_cluster.k8s.kube_config.0.client_key)
+    cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.k8s.kube_config.0.cluster_ca_certificate)
+  }
 }
 
 locals {

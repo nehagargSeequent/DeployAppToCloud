@@ -12,14 +12,14 @@ resource "azurerm_key_vault" "key_vault" {
 
   # Not restricting access below so that you won't have issue in creating and accessing secrets.
   # Ideally below should be in place to allow access to only authorized IPs or CIDRs.
-  
-#   network_acls {
-#     bypass         = "AzureServices"
-#     default_action = "Deny"
-#     ip_rules       = var.keyvault.authorized_ip_ranges
-#     virtual_network_subnet_ids = [
-#       azurerm_subnet.k8s_subnet.id
-#     ]
-#   }
+
+  #   network_acls {
+  #     bypass         = "AzureServices"
+  #     default_action = "Deny"
+  #     ip_rules       = var.keyvault.authorized_ip_ranges
+  #     virtual_network_subnet_ids = [
+  #       azurerm_subnet.k8s_subnet.id
+  #     ]
+  #   }
 
 }

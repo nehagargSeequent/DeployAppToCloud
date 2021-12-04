@@ -64,6 +64,11 @@ variable "keyvault" {
   })
 }
 
+variable "kv_pod_identity" {
+  description = "AAD Pod Identity which would be used by a pod to access key vault secrets"
+  type        = string
+}
+
 variable "tags" {
   type = map(string)
 }

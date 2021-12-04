@@ -38,10 +38,10 @@ resource "azurerm_postgresql_server" "pgsql_server" {
 
 # Allowing AKS cluster subnet to access database
 resource "azurerm_postgresql_virtual_network_rule" "pgsql_vnet_rule" {
-  name                                 = "postgresql-vnet-rule"
-  resource_group_name                  = azurerm_resource_group.postgres_resource_group.name
-  server_name                          = azurerm_postgresql_server.pgsql_server.name
-  subnet_id                            = azurerm_subnet.k8s_subnet.id
+  name                = "postgresql-vnet-rule"
+  resource_group_name = azurerm_resource_group.postgres_resource_group.name
+  server_name         = azurerm_postgresql_server.pgsql_server.name
+  subnet_id           = azurerm_subnet.k8s_subnet.id
 }
 
 resource "azurerm_postgresql_database" "pgsql_server_database" {
