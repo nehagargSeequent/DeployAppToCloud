@@ -1,25 +1,25 @@
-resource "azurerm_resource_group" "database_resource_group" {
-  name     = var.database.server_resource_group_name
-  location = var.database.server_location
+resource "azurerm_resource_group" "postgres_resource_group" {
+  name     = var.postgres.server_resource_group_name
+  location = var.postgres.server_location
 }
 
 # Generate random string to be used for postgresql server Password
-resource "random_string" "admin_password" {
+resource "random_password" "admin_password" {
   length  = 32
   special = true
 }
 
 resource "azurerm_postgresql_server" "pgsql_server" {
-  name                = var.database.server_name
-  location            = azurerm_resource_group.database_resource_group.location
-  resource_group_name = azurerm_resource_group.database_resource_group.name
+  name                = var.postgres.server_name
+  location            = azurerm_resource_group.postgres_resource_group.location
+  resource_group_name = azurerm_resource_group.postgres_resource_group.name
 
   # Create mode can be Default or Replica. Replica create_mode could be used to define a failover server.
   # You will need to provide the server id of the source database server while defining the failover server.
-  create_mode               = "Default"
+  create_mode = "Default"
   #creation_source_server_id = var.creation_source_server_id
 
-  sku_name = var.database.postgres_sku_name
+  sku_name = var.postgres.sku_name
 
   storage_mb            = 5120
   backup_retention_days = 7
@@ -28,8 +28,8 @@ resource "azurerm_postgresql_server" "pgsql_server" {
   geo_redundant_backup_enabled = false
   auto_grow_enabled            = true
 
-  administrator_login          = var.database.administrator_login
-  administrator_login_password = random_string.admin_password.result
+  administrator_login          = var.postgres.administrator_login
+  administrator_login_password = random_password.admin_password.result
   version                      = "11"
   ssl_enforcement_enabled      = "true"
 
@@ -37,10 +37,21 @@ resource "azurerm_postgresql_server" "pgsql_server" {
 }
 
 resource "azurerm_postgresql_database" "pgsql_server_database" {
-  name                = var.database.database_name
-  resource_group_name = azurerm_resource_group.database_resource_group.name
+  name                = "${var.resource_prefix}-database"
+  resource_group_name = azurerm_resource_group.postgres_resource_group.name
   server_name         = azurerm_postgresql_server.pgsql_server.name
   charset             = "UTF8"
   collation           = "English_United States.1252"
 }
 
+resource "azurerm_key_vault_secret" "pgsql_server_admin_username" {
+  name         = "pgsql-username"
+  value        = "${var.postgres.administrator_login}@${azurerm_postgresql_server.pgsql_server.fqdn}"
+  key_vault_id = azurerm_key_vault.key_vault.id
+}
+
+resource "azurerm_key_vault_secret" "pgsql_server_admin_password" {
+  name         = "pgsql-password"
+  value        = azurerm_postgresql_server.pgsql_server.administrator_login_password
+  key_vault_id = azurerm_key_vault.key_vault.id
+}

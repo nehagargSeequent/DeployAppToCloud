@@ -6,7 +6,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   dns_prefix          = local.common_resource_name
   kubernetes_version  = var.kubernetes.version
 
-  # Provide IPs to be able to restrict access to AKS service. Don't open it.
+  # Provide IPs to be able to restrict access to AKS service. Don't open it to all networks.
   # api_server_authorized_ip_ranges = var.kubernetes.authorized_ip_ranges
 
   default_node_pool {

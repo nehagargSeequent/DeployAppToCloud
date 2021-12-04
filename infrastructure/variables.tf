@@ -8,7 +8,12 @@ variable "azure" {
 }
 
 variable "aks_resource_prefix" {
-  description = "Common resource prefix used for naming Azure resources"
+  description = "Common resource prefix used for naming AKS resources"
+  type        = string
+}
+
+variable "resource_prefix" {
+  description = "Common resource prefix used for naming other Azure resources"
   type        = string
 }
 
@@ -41,15 +46,21 @@ variable "network" {
   })
 }
 
-variable "database" {
-  description = "Database configuration"
+variable "postgres" {
+  description = "Postgresql database server configuration"
   type = object({
     server_resource_group_name : string
     server_location : string
     server_name : string
-    database_name : string
-    postgres_sku_name : string
+    sku_name : string
     administrator_login : string
+  })
+}
+
+variable "keyvault" {
+  description = "Postgresql database server configuration"
+  type = object({
+    authorized_ip_ranges : list(string)
   })
 }
 
