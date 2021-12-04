@@ -36,6 +36,14 @@ resource "azurerm_postgresql_server" "pgsql_server" {
   tags = var.tags
 }
 
+# Allowing AKS cluster subnet to access database
+resource "azurerm_postgresql_virtual_network_rule" "pgsql_vnet_rule" {
+  name                                 = "postgresql-vnet-rule"
+  resource_group_name                  = azurerm_resource_group.postgres_resource_group.name
+  server_name                          = azurerm_postgresql_server.pgsql_server.name
+  subnet_id                            = azurerm_subnet.k8s_subnet.id
+}
+
 resource "azurerm_postgresql_database" "pgsql_server_database" {
   name                = "${var.resource_prefix}-database"
   resource_group_name = azurerm_resource_group.postgres_resource_group.name
@@ -44,12 +52,14 @@ resource "azurerm_postgresql_database" "pgsql_server_database" {
   collation           = "English_United States.1252"
 }
 
+# Adding pgsql server login username as a secret to Key Vault 
 resource "azurerm_key_vault_secret" "pgsql_server_admin_username" {
   name         = "pgsql-username"
   value        = "${var.postgres.administrator_login}@${azurerm_postgresql_server.pgsql_server.fqdn}"
   key_vault_id = azurerm_key_vault.key_vault.id
 }
 
+# Adding pgsql server login password as a secret to Key Vault 
 resource "azurerm_key_vault_secret" "pgsql_server_admin_password" {
   name         = "pgsql-password"
   value        = azurerm_postgresql_server.pgsql_server.administrator_login_password
