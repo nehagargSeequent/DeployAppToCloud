@@ -11,6 +11,8 @@ on:
 env:
   RG_NAME: 'aks-golang-application'
   CLUSTER_NAME: 'aks-golang-application'
+  SUBSCRIPTION_ID: '9c7e4d17-f551-45df-a7b8-2e0cfd252559'
+  TENANT_ID: '9d3a50aa-06a0-4090-b99a-9b798edce6b8'
 
 jobs:
   CreateCluster:
@@ -18,8 +20,8 @@ jobs:
     env:
       ARM_CLIENT_ID: ${{ secrets.SVC_KUBE_CLIENTID }}
       ARM_CLIENT_SECRET: ${{ secrets.SVC_KUBE_CLIENTSECRET }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ env.SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ env.TENANT_ID }}
     runs-on: ubuntu-latest
 
     steps:
@@ -37,8 +39,7 @@ jobs:
       id: init
       run: |
         cd infrastructure
-        # terraform init -backend-config=configs/backend.tfvars.json
-        terraform init
+        terraform init -backend-config=configs/backend.tfvars.json
     
     - name: Terraform Validate
       id: validate
@@ -70,8 +71,8 @@ jobs:
       run: |
         set -euo pipefail
 
-        az login --service-principal -u ${{ secrets.SVC_KUBE_CLIENTID }} -p ${{ secrets.SVC_KUBE_CLIENTSECRET }} --tenant ${{ secrets.TENANT_ID }}
-        az account set -s ${{ secrets.SUBSCRIPTION_ID }}
+        az login --service-principal -u ${{ secrets.SVC_KUBE_CLIENTID }} -p ${{ secrets.SVC_KUBE_CLIENTSECRET }} --tenant ${{ env.TENANT_ID }}
+        az account set -s ${{ env.SUBSCRIPTION_ID }}
         az account show            
         az aks get-credentials --resource-group ${{ env.RG_NAME }} --name ${{ env.CLUSTER_NAME }}     
 

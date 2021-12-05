@@ -11,7 +11,7 @@ resource "azurerm_key_vault" "key_vault" {
   enable_rbac_authorization = "true"
   tags                      = var.tags
 
-  # Not restricting access below so that you won't have issue in creating and accessing secrets.
+  # Not restricting network access below so that you won't have issue in creating and accessing secrets.
   # Ideally below should be in place to allow access to only authorized IPs or CIDRs.
 
   #   network_acls {
