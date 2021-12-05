@@ -1,10 +1,13 @@
-variable "azure" {
-  description = "Azure configuration"
-  type = object({
-    location : string
-    subscription_id : string
-    tenant_id : string
-  })
+variable "subscription_id" {
+  type = string
+}
+
+variable "tenant_id" {
+  type = string
+}
+
+variable "location" {
+  type = string
 }
 
 variable "aks_resource_prefix" {

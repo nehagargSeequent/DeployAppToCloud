@@ -26,8 +26,8 @@ terraform {
 }
 
 provider "azurerm" {
-  subscription_id = var.azure.subscription_id
-  tenant_id       = var.azure.tenant_id
+  subscription_id = var.subscription_id
+  tenant_id       = var.tenant_id
   features {}
 }
 
@@ -57,6 +57,6 @@ locals {
 # This is the resource group which would hold AKS service
 resource "azurerm_resource_group" "resource_group" {
   name     = local.resource_group_name
-  location = var.azure.location
+  location = var.location
   tags     = var.tags
 }

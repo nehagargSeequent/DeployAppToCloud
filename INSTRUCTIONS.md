@@ -11,8 +11,7 @@ Install AZ CLI; https://docs.microsoft.com/en-us/cli/azure/install-azure-cli
   ```
 
 2. #### Add Subscription Information
-- Add _subscription_id_ and _tenant_id_ to configs/backend.tfvars.json - Line 5, 6
-- Add _subscription_id_ and _tenant_id_ to configs/infrastructure.tfvars.json - Line 3, 4
+- Add _subscription_id_ and _tenant_id_ to .github/workflows/deploy_app.yml - Line 14,15
 - Add _subscription_id_ and _tenant_ id to deployment/secretproviderclass.yaml - Line 20, 21
 
 3. #### Provision Service Principal 
@@ -22,7 +21,7 @@ Install AZ CLI; https://docs.microsoft.com/en-us/cli/azure/install-azure-cli
   bash service_principal.sh "<_subscription_id_>" "<_service_principal_name_>"
   ```
 
->***Note**: Store service principal output, you would need it later. It needs Owner permissiongs to be able to create and manage Azure resources and to be able to assign permissions to  the cluster managed identities.*
+>***Note**: Store service principal output, you would need it later. It needs Owner permissions to be able to create and manage Azure resources and to be able to assign permissions to the cluster managed identities.*
 
 4. #### Create github repository secrets.
 - Store below as github repository secrets (Go to repo -> Settings -> Secrets -> New repository secret)
