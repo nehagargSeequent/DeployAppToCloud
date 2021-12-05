@@ -17,6 +17,9 @@ This repository holds terraform resources to create infrastructure to host a Gol
 ## .github/workflows/deploy_app.yml
 - Github workflow need to create AKS cluster, PostgreSQL server and to deploy app to the cluster.
 
+![image](https://user-images.githubusercontent.com/81267312/144766544-89f7ca9f-dcc4-48b4-8cdc-352859db7a7b.png)
+
+
 ## High-level Architecture Overview
 - We have Azure Kubernetes Services (AKS cluster) deployed in a virtual network subnet. This cluster has got nodes enabled in multiple availability zones and scaling enabled. 
 - The cluster has got monitoring enabled to be able to monitor metrices available via Container Insights.
