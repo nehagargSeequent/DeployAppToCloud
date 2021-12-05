@@ -20,8 +20,8 @@ jobs:
     env:
       ARM_CLIENT_ID: ${{ secrets.SVC_KUBE_CLIENTID }}
       ARM_CLIENT_SECRET: ${{ secrets.SVC_KUBE_CLIENTSECRET }}
-      ARM_SUBSCRIPTION_ID: $SUBSCRIPTION_ID
-      ARM_TENANT_ID: $TENANT_ID
+      ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
     runs-on: ubuntu-latest
 
     steps:
@@ -67,8 +67,8 @@ jobs:
         inlineScript: |
           set -euo pipefail
 
-          az login --service-principal -u ${{ secrets.SVC_KUBE_CLIENTID }} -p ${{ secrets.SVC_KUBE_CLIENTSECRET }} --tenant ${{ env.TENANT_ID }}
-          az account set -s ${{ env.SUBSCRIPTION_ID }}
+          az login --service-principal -u ${{ secrets.SVC_KUBE_CLIENTID }} -p ${{ secrets.SVC_KUBE_CLIENTSECRET }} --tenant ${{ secrets.TENANT_ID }}
+          az account set -s ${{ secrets.SUBSCRIPTION_ID }}
           az account show            
           az aks get-credentials --resource-group ${{ env.RG_NAME }} --name ${{ env.CLUSTER_NAME }}            
             
