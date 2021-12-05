@@ -1,4 +1,4 @@
-name: create_cluster
+name: deploy_app
 
 on: 
   # push:
@@ -9,8 +9,8 @@ on:
   workflow_dispatch
 
 env:
-  SUBSCRIPTION_ID: '9c7e4d17-f551-45df-a7b8-2e0cfd252559'
-  TENANT_ID: '9d3a50aa-06a0-4090-b99a-9b798edce6b8'
+  SUBSCRIPTION_ID: ''
+  TENANT_ID: ''
   RG_NAME: 'aks-golang-application'
   CLUSTER_NAME: 'aks-golang-application'
 
