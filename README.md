@@ -30,3 +30,5 @@ This repository holds terraform resources to create infrastructure to host a Gol
 - The username and password of the main server would be stored as secrets in a Key Vault.
 
 - We have a kubernetes load balancer attached in front of the cluster nodes that has public IP configured which could be browsed to access the Servian Challenge application. 
+
+>**Note**: I was unable to create seed database in my Azure PostgreSQL server using _updatedb.go_. I have created an issue here, https://github.com/servian/TechChallengeApp/issues/89
