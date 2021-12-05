@@ -1,13 +1,19 @@
 # DeployAppToCloud
-This repository would hold infrastructure as code to be deployed to Azure. This infrastructure would host a Golang application. 
+This repository holds terraform resources to create infrastructure to host a Golang application. 
 
 ## configs 
-- To hold configurations in json format to be used by Terraform resources. 
+- backend.tfvars.json: To hold backend configuration to be used to create and access terraform state.
+- infrastructure.tfvars.json: To hold configurations in json format to be used by Terraform resources. 
 
 ## infrastructure
-- Terraform modules to deploy Azure Kubernetes Services (AKS) cluster infrastructure.
+- Terraform configuration to deploy Azure Kubernetes Services (AKS) cluster infrastructure.
+- Terraform module to deploy PostgreSQL server infrastructure.
 - This cluster would host a Golang application 
 
 ## deployment
+- This folder has Kubernetes manifests.
 
 ## .github/workflows/deploy_app.yml
+- Github workflow need to create AKS cluster, PostgreSQL server and to deploy app to the cluster.
+
+## High-level Architecture 
