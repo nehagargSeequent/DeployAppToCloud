@@ -9,13 +9,11 @@ on:
   workflow_dispatch
 
 env:
-  SUBSCRIPTION_ID: ''
-  TENANT_ID: ''
   RG_NAME: 'aks-golang-application'
   CLUSTER_NAME: 'aks-golang-application'
 
 jobs:
-  create-cluster:
+  CreateCluster:
     name: 'create kube cluster for app'
     env:
       ARM_CLIENT_ID: ${{ secrets.SVC_KUBE_CLIENTID }}
@@ -52,16 +50,23 @@ jobs:
       id: apply  
       run:  |
         cd infrastructure
-        terraform apply -var-file=configs/infrstructure.tfvars.json --auto-approve
+        terraform apply -var-file=configs/infrastructure.tfvars.json --auto-approve
         
-  deploy-app:
+  DeployApp:
     name: 'deploy app to the cluster'
+    needs: [CreateCluster]
     runs-on: ubuntu-latest
     
     steps:
     - uses: actions/checkout@v2 
 
-    - name: Get AKS credentials
+    - name: Install Kubernetes
+      uses: azure/setup-kubectl@v1
+      id: install_kubectl
+      with:
+          version: 'v1.21.2'
+
+    - name: Deploy app
       uses: Azure/cli@1.0.4
       with:
         inlineScript: |
@@ -70,28 +75,39 @@ jobs:
           az login --service-principal -u ${{ secrets.SVC_KUBE_CLIENTID }} -p ${{ secrets.SVC_KUBE_CLIENTSECRET }} --tenant ${{ secrets.TENANT_ID }}
           az account set -s ${{ secrets.SUBSCRIPTION_ID }}
           az account show            
-          az aks get-credentials --resource-group ${{ env.RG_NAME }} --name ${{ env.CLUSTER_NAME }}            
-            
-    - uses: Azure/setup-kubectl@v1
+          az aks get-credentials --resource-group ${{ env.RG_NAME }} --name ${{ env.CLUSTER_NAME }}     
 
-    - name: Apply Secret Provider Class
-      id: secret_driver
-      run: |
-        ls
-        cd deployment
-        kubectl apply -f secretproviderclass.yaml
+          ls
+          cd deployment
+          kubectl apply -f secretproviderclass.yaml       
+          kubectl apply -f golang-app.yaml
+          kubectl apply -f golang-service.yaml
     
-    - name: Apply app deployment
-      id: deployment
-      run: |
-        cd deployment
-        kubectl apply -f golang-app.yaml
+
+
+    # - uses: Azure/setup-kubectl@v1
+    # - name: Deploy app
+    #   run: |
+    #         set -euo pipefail
+
+    # - name: Apply Secret Provider Class
+    #   id: secret_driver
+    #   run: |
+    #     ls
+    #     cd deployment
+    #     kubectl apply -f secretproviderclass.yaml
+    
+    # - name: Apply app deployment
+    #   id: deployment
+    #   run: |
+    #     cd deployment
+    #     kubectl apply -f golang-app.yaml
         
-    - name: Apply app service
-      id: service
-      run: |
-        cd deployment
-        kubectl apply -f golang-service.yaml
+    # - name: Apply app service
+    #   id: service
+    #   run: |
+    #     cd deployment
+    #     kubectl apply -f golang-service.yaml
         
        
     
