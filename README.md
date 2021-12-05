@@ -17,7 +17,7 @@ This repository holds terraform resources to create infrastructure to host a Gol
 ## .github/workflows/deploy_app.yml
 - Github workflow need to create AKS cluster, PostgreSQL server and to deploy app to the cluster.
 
-![image](https://user-images.githubusercontent.com/81267312/144766544-89f7ca9f-dcc4-48b4-8cdc-352859db7a7b.png)
+![image](https://user-images.githubusercontent.com/81267312/144766667-44c7ae04-1ac1-4c6e-8382-d14f788d248d.png)
 
 
 ## High-level Architecture Overview
