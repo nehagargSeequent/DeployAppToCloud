@@ -18,9 +18,9 @@ This repository would hold infrastructure as code to be deployed to Azure. This 
 - Need Contributor, User Access Administrator and Reader access to subscription
     - Contributor: To be able to create and manage Azure resources.
     - User Access Administrator: To be able to assign permissions to the cluster managed identities.
-    - Key Vault Secrets Officer: To be able to create and read secrets in key vault. Usually I prefer to use access policies to refine the access or RBAC at the resource level.
 
 *Steps*
-- Add subscription_id and tenant_id to configs/infrastructure.tfvars.json
+- Add subscription_id and tenant_id to configs/infrastructure.tfvars.json - Line 3, 4
+- Add tenant id to deployment/secretproviderclass.yaml - Line 20
 - terraform init
 - terraform apply --var-file "configs/infrastructure.tfvars.json"
