@@ -16,7 +16,7 @@ env:
 
 jobs:
   CreateCluster:
-    name: 'create kube cluster for app'
+    name: 'Create AKS cluster for app'
     env:
       ARM_CLIENT_ID: ${{ secrets.SVC_KUBE_CLIENTID }}
       ARM_CLIENT_SECRET: ${{ secrets.SVC_KUBE_CLIENTSECRET }}
@@ -54,7 +54,7 @@ jobs:
         terraform apply -var-file=configs/infrastructure.tfvars.json --auto-approve
         
   DeployApp:
-    name: 'deploy app to the cluster'
+    name: 'Deploy app to the cluster'
     needs: [CreateCluster]
     runs-on: ubuntu-latest
     
