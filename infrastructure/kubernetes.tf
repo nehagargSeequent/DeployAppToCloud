@@ -65,3 +65,33 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     }
   }
 }
+
+data "azurerm_resource_group" "node_resource_group" {
+  name = azurerm_kubernetes_cluster.k8s.node_resource_group
+}
+
+# Access to create load balancers in the Central subnet
+
+resource "azurerm_role_assignment" "aks_control_vnet" {
+  scope                = azurerm_virtual_network.vnet.id
+  role_definition_name = "Network Contributor"
+  principal_id         = azurerm_kubernetes_cluster.k8s.identity[0].principal_id
+}
+
+# ---
+# Access to contribute to the cluster nodes
+
+resource "azurerm_role_assignment" "aks_control_vmss" {
+  scope                = data.azurerm_resource_group.node_resource_group.id
+  role_definition_name = "Virtual Machine Contributor"
+  principal_id         = azurerm_kubernetes_cluster.k8s.kubelet_identity[0].object_id
+}
+
+# ---
+# Access to read and assign user managed identity
+
+resource "azurerm_role_assignment" "aks_control_identity" {
+  scope                = data.azurerm_resource_group.node_resource_group.id
+  role_definition_name = "Managed Identity Operator"
+  principal_id         = azurerm_kubernetes_cluster.k8s.kubelet_identity[0].object_id
+}
