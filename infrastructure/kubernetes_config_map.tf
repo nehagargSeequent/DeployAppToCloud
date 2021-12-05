@@ -19,7 +19,7 @@ resource "kubernetes_config_map" "db_config" {
     namespace = kubernetes_namespace.app_ns.metadata.0.name
   }
   data = {
-    VTT_DBNAME = azurerm_postgresql_server.pgsql_server.name
+    VTT_DBNAME = "golangDb"
     VTT_DBPORT = 5432
     VTT_DBHOST = azurerm_postgresql_server.pgsql_server.fqdn
   }

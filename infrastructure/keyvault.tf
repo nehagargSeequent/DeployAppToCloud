@@ -3,8 +3,8 @@ data "azurerm_client_config" "current" {
 
 resource "azurerm_key_vault" "key_vault" {
   name                = "${var.resource_prefix}-vault"
-  location            = azurerm_resource_group.resource_group.location
-  resource_group_name = azurerm_resource_group.resource_group.name
+  location            = data.azurerm_resource_group.node_resource_group.location
+  resource_group_name = data.azurerm_resource_group.node_resource_group.name
   tenant_id           = var.azure.tenant_id
   sku_name            = "standard"
 

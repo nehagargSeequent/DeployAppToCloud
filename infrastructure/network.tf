@@ -1,7 +1,3 @@
-data "azurerm_resource_group" "node_resource_group" {
-  name = azurerm_kubernetes_cluster.k8s.node_resource_group
-}
-
 resource "azurerm_virtual_network" "vnet" {
   name                = local.vnet_name
   resource_group_name = azurerm_resource_group.resource_group.name

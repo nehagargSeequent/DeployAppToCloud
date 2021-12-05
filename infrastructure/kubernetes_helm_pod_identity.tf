@@ -23,27 +23,27 @@ resource "helm_release" "aad_pod_identity" {
   }
 
   set {
-    name  = "azureIdentity.resourceID"
+    name  = "azureIdentities.${var.kv_pod_identity}.resourceID"
     value = azurerm_user_assigned_identity.pod_identity.id
   }
 
   set {
-    name  = "azureIdentity.clientID"
+    name  = "azureIdentities.${var.kv_pod_identity}.clientID"
     value = azurerm_user_assigned_identity.pod_identity.client_id
   }
 
   set {
-    name  = "azureIdentity.type"
+    name  = "azureIdentities.${var.kv_pod_identity}.type"
     value = "0"
   }
 
   set {
-    name  = "azureIdentity.binding.selector"
+    name  = "azureIdentities.${var.kv_pod_identity}.binding.selector"
     value = var.kv_pod_identity
   }
 
   set {
-    name  = "azureIdentity.binding.name"
+    name  = "azureIdentities.${var.kv_pod_identity}.binding.name"
     value = var.kv_pod_identity
   }
 }
