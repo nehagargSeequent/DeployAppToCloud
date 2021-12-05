@@ -1,0 +1,97 @@
+name: create_cluster
+
+on: 
+  # push:
+  #   paths:
+  #     - infrastructure/**
+  #   branches:
+  #     - main
+  workflow_dispatch
+
+env:
+  SUBSCRIPTION_ID: '9c7e4d17-f551-45df-a7b8-2e0cfd252559'
+  TENANT_ID: '9d3a50aa-06a0-4090-b99a-9b798edce6b8'
+  RG_NAME: 'aks-golang-application'
+  CLUSTER_NAME: 'aks-golang-application'
+
+jobs:
+  create-cluster:
+    name: 'create kube cluster for app'
+    env:
+      ARM_CLIENT_ID: ${{ secrets.SVC_KUBE_CLIENTID }}
+      ARM_CLIENT_SECRET: ${{ secrets.SVC_KUBE_CLIENTSECRET }}
+      ARM_SUBSCRIPTION_ID: $SUBSCRIPTION_ID
+      ARM_TENANT_ID: $TENANT_ID
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: hashicorp/setup-terraform@v1.2.1 
+
+    - name: Terraform Format
+      id: fmt
+      run: |
+        ls
+        cd infrastructure
+        terraform fmt -list=true -diff
+
+    - name: Terraform Init
+      id: init
+      run: |
+        cd infrastructure
+        # terraform init -backend-config=configs/backend.tfvars.json
+        terraform init
+    
+    - name: Terraform Validate
+      id: validate
+      run: |
+        cd infrastructure
+        terraform validate -json  
+
+    - name: Terraform Apply
+      id: apply  
+      run:  |
+        cd infrastructure
+        terraform apply -var-file=configs/infrstructure.tfvars.json --auto-approve
+        
+  deploy-app:
+    name: 'deploy app to the cluster'
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2 
+
+    - name: Get AKS credentials
+      uses: Azure/cli@1.0.4
+      with:
+        inlineScript: |
+          set -euo pipefail
+
+          az login --service-principal -u ${{ secrets.SVC_KUBE_CLIENTID }} -p ${{ secrets.SVC_KUBE_CLIENTSECRET }} --tenant ${{ env.TENANT_ID }}
+          az account set -s ${{ env.SUBSCRIPTION_ID }}
+          az account show            
+          az aks get-credentials --resource-group ${{ env.RG_NAME }} --name ${{ env.CLUSTER_NAME }}            
+            
+    - uses: Azure/setup-kubectl@v1
+
+    - name: Apply Secret Provider Class
+      id: secret_driver
+      run: |
+        ls
+        cd deployment
+        kubectl apply -f secretproviderclass.yaml
+    
+    - name: Apply app deployment
+      id: deployment
+      run: |
+        cd deployment
+        kubectl apply -f golang-app.yaml
+        
+    - name: Apply app service
+      id: service
+      run: |
+        cd deployment
+        kubectl apply -f golang-service.yaml
+        
+       
+    
