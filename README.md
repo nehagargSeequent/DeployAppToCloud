@@ -12,8 +12,11 @@ This repository holds terraform resources to create infrastructure to host a Gol
 
 ## deployment
 - This folder has Kubernetes manifests.
+- Go through INSTRUCTIONS.md to deploy your app to this infrastructure.
 
 ## .github/workflows/deploy_app.yml
 - Github workflow need to create AKS cluster, PostgreSQL server and to deploy app to the cluster.
 
-## High-level Architecture 
+## High-level Architecture Overview
+
+
