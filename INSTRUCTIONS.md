@@ -1,5 +1,7 @@
-***Pre-requisites***
-- Install AZ CLI; https://docs.microsoft.com/en-us/cli/azure/install-azure-cli
+## Pre-requisites
+Install AZ CLI; https://docs.microsoft.com/en-us/cli/azure/install-azure-cli
+
+## Steps
 
 1. #### Create backend storage
 - create storage account and container using script below;
