@@ -31,4 +31,7 @@ This repository holds terraform resources to create infrastructure to host a Gol
 
 - We have a kubernetes load balancer attached in front of the cluster nodes that has public IP configured which could be browsed to access the Servian Challenge application. 
 
+![image](https://user-images.githubusercontent.com/81267312/144765760-feaea733-78ab-4665-8ebf-83bc8d085a95.png)
+
+
 >**Note**: I was unable to create seed database in my Azure PostgreSQL server using _updatedb.go_. I have created an issue here, https://github.com/servian/TechChallengeApp/issues/89
