@@ -20,8 +20,8 @@ jobs:
     env:
       ARM_CLIENT_ID: ${{ secrets.SVC_KUBE_CLIENTID }}
       ARM_CLIENT_SECRET: ${{ secrets.SVC_KUBE_CLIENTSECRET }}
-      ARM_SUBSCRIPTION_ID: ${{ env.SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ env.TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: $SUBSCRIPTION_ID
+      ARM_TENANT_ID: $TENANT_ID
     runs-on: ubuntu-latest
 
     steps:
