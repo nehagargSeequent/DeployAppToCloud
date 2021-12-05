@@ -54,7 +54,7 @@ jobs:
         
   DeployApp:
     name: 'deploy app to the cluster'
-    # needs: [CreateCluster]
+    needs: [CreateCluster]
     runs-on: ubuntu-latest
     
     steps:
