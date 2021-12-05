@@ -57,6 +57,17 @@ variable "postgres" {
   })
 }
 
+variable "pgsql_failover_info" {
+  description = "Information about the failover region, if null we wont create a read replica postgres server."
+  type = object(
+    {
+      region : string
+      server_name : string
+    }
+  )
+  default = null
+}
+
 variable "keyvault" {
   description = "Postgresql database server configuration"
   type = object({

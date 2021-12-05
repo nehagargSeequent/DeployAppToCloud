@@ -11,9 +11,7 @@ resource "kubernetes_namespace" "app_ns" {
 }
 
 resource "kubernetes_config_map" "db_config" {
-  depends_on = [
-    azurerm_postgresql_server.pgsql_server
-  ]
+  depends_on = [module.main_postgres_server]
   metadata {
     name      = "golang-database-config"
     namespace = kubernetes_namespace.app_ns.metadata.0.name
@@ -21,6 +19,6 @@ resource "kubernetes_config_map" "db_config" {
   data = {
     VTT_DBNAME = "golangDb"
     VTT_DBPORT = 5432
-    VTT_DBHOST = azurerm_postgresql_server.pgsql_server.fqdn
+    VTT_DBHOST = module.main_postgres_server.pgsql_fqdn
   }
 }
