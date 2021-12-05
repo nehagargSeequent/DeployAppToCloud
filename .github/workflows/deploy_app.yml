@@ -80,32 +80,22 @@ jobs:
         kubectl apply -f secretproviderclass.yaml       
         kubectl apply -f golang-app.yaml
         kubectl apply -f golang-service.yaml
-    
 
+    - name: Verify app deployment
+      run: |
+        set -euo pipefail
 
-    # - uses: Azure/setup-kubectl@v1
-    # - name: Deploy app
-    #   run: |
-    #         set -euo pipefail
-
-    # - name: Apply Secret Provider Class
-    #   id: secret_driver
-    #   run: |
-    #     ls
-    #     cd deployment
-    #     kubectl apply -f secretproviderclass.yaml
-    
-    # - name: Apply app deployment
-    #   id: deployment
-    #   run: |
-    #     cd deployment
-    #     kubectl apply -f golang-app.yaml
+        echo "Verify Cluster"
+        echo "Checking nodes..."
+        kubectl -n azure-golang get nodes
         
-    # - name: Apply app service
-    #   id: service
-    #   run: |
-    #     cd deployment
-    #     kubectl apply -f golang-service.yaml
+        echo "..."
+        echo "Checking deployment status..."
+        kubectl -n azure-golang get deployment
+        
+        echo "..."
+        echo "Checking pods status..."
+        kubectl -n azure-golang get pods
         
        
     
