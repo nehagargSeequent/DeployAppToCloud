@@ -67,21 +67,19 @@ jobs:
           version: 'v1.21.2'
 
     - name: Deploy app
-      uses: Azure/cli@1.0.4
-      with:
-        inlineScript: |
-          set -euo pipefail
+      run: |
+        set -euo pipefail
 
-          az login --service-principal -u ${{ secrets.SVC_KUBE_CLIENTID }} -p ${{ secrets.SVC_KUBE_CLIENTSECRET }} --tenant ${{ secrets.TENANT_ID }}
-          az account set -s ${{ secrets.SUBSCRIPTION_ID }}
-          az account show            
-          az aks get-credentials --resource-group ${{ env.RG_NAME }} --name ${{ env.CLUSTER_NAME }}     
+        az login --service-principal -u ${{ secrets.SVC_KUBE_CLIENTID }} -p ${{ secrets.SVC_KUBE_CLIENTSECRET }} --tenant ${{ secrets.TENANT_ID }}
+        az account set -s ${{ secrets.SUBSCRIPTION_ID }}
+        az account show            
+        az aks get-credentials --resource-group ${{ env.RG_NAME }} --name ${{ env.CLUSTER_NAME }}     
 
-          ls
-          cd deployment
-          kubectl apply -f secretproviderclass.yaml       
-          kubectl apply -f golang-app.yaml
-          kubectl apply -f golang-service.yaml
+        ls
+        cd deployment
+        kubectl apply -f secretproviderclass.yaml       
+        kubectl apply -f golang-app.yaml
+        kubectl apply -f golang-service.yaml
     
 
 
