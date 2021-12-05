@@ -13,6 +13,7 @@ resource "random_password" "admin_password" {
   special = true
 }
 
+# This is the main PostgreSQL server
 module "main_postgres_server" {
   source                       = "./postgresql_server"
   pgsql_server_name            = var.postgres.server_name
@@ -26,6 +27,7 @@ module "main_postgres_server" {
   whitelist_subnet_id          = azurerm_subnet.k8s_subnet.id
 }
 
+# This is the failover replica server
 module "replica_postgres_server" {
   source                    = "./postgresql_server"
   count                     = local.has_pgsql_failover_hub ? 1 : 0

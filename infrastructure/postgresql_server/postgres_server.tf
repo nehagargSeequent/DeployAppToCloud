@@ -1,4 +1,4 @@
-# This module creates a single postgres server and configures its network access and firewall
+# This module creates a single postgres server and configures its network access
 
 resource "azurerm_postgresql_server" "pgsql_server" {
  

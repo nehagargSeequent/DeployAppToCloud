@@ -1,3 +1,4 @@
+# Creating log analytics workspace which would store monitoring data.
 resource "azurerm_log_analytics_workspace" "logs_analytics" {
   count = var.kubernetes.enable_log_analytics ? 1 : 0
 
@@ -8,6 +9,7 @@ resource "azurerm_log_analytics_workspace" "logs_analytics" {
   tags                = var.tags
 }
 
+# Below would create ContainerInsights resource.
 resource "azurerm_log_analytics_solution" "logs_analytics" {
   count = var.kubernetes.enable_log_analytics ? 1 : 0
 

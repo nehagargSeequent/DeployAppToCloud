@@ -10,6 +10,7 @@ resource "kubernetes_namespace" "app_ns" {
   }
 }
 
+# It would provide environment configuration for the pods
 resource "kubernetes_config_map" "db_config" {
   depends_on = [module.main_postgres_server]
   metadata {

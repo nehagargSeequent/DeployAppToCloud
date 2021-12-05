@@ -14,9 +14,6 @@ terraform {
       version = "~>2.0"
     }
   }
-  # Use Azure storage container to hold terrafrom state. Using local, as I don't want this to be a dependency. 
-  # backend "local" {
-  # }
 
   backend "azurerm" {
     subscription_id      = ""

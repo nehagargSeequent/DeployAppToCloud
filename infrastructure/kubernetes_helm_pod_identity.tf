@@ -10,6 +10,8 @@ resource "kubernetes_namespace" "aad_pod_identity" {
   }
 }
 
+# request token from AAD, use that token to fetch secrets from key vault, and 
+# get those secrets to the application to be able to connect to database server
 resource "helm_release" "aad_pod_identity" {
   name       = "aad-pod-identity"
   repository = "https://raw.githubusercontent.com/Azure/aad-pod-identity/master/charts"
