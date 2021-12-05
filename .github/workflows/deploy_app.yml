@@ -96,6 +96,10 @@ jobs:
         echo "..."
         echo "Checking pods status..."
         kubectl -n azure-golang get pods
+
+        echo "..."
+        echo "Checking service status..."
+        kubectl -n azure-golang get services
         
        
     
